@@ -10,10 +10,10 @@ public class ToggleUI : MonoBehaviour
     [SerializeField] private RectTransform uiPanel;
 
     [Header("Animation Settings")]
-    [SerializeField] private float animationSpeed = 12f;
-    [SerializeField] private Vector3 startScale = new Vector3(0.1f, 0.1f, 0.1f);
+    [SerializeField] private float animationSpeed = 25f;
+    [SerializeField] private Vector3 startScale = new Vector3(0, 0, 0);
 
-    [SerializeField] private bool ShowOnHighlight = false;
+    //[SerializeField] private bool ShowOnHighlight = false;
 
     private Vector3 fullScale = Vector3.one;
     private Coroutine currentRoutine;
