@@ -669,10 +669,10 @@ RectTransform:
   - {fileID: 401209088}
   m_Father: {fileID: 638607997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 300, y: -50}
-  m_SizeDelta: {x: 200, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 720, y: -45}
+  m_SizeDelta: {x: 195, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &458928814
 MonoBehaviour:
@@ -842,10 +842,10 @@ RectTransform:
   - {fileID: 458928813}
   m_Father: {fileID: 4838824627780743964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1000, y: 750}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &638607998
 MonoBehaviour:
@@ -867,8 +867,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1628,6 +1628,7 @@ GameObject:
   - component: {fileID: 1213446776}
   - component: {fileID: 1213446775}
   - component: {fileID: 1213446774}
+  - component: {fileID: 1213446779}
   m_Layer: 5
   m_Name: Button:Close_Settings
   m_TagString: Untagged
@@ -1745,8 +1746,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1213446774}
-        m_TargetAssemblyTypeName: ToggleUI, Assembly-CSharp
+      - m_Target: {fileID: 1213446779}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
         m_MethodName: SetUIDisabled
         m_Mode: 1
         m_Arguments:
@@ -1795,6 +1796,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1213446772}
   m_CullTransparentMesh: 1
+--- !u!114 &1213446779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213446772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PopupsUI
+  object_to_toggle: {fileID: 638607996}
+  animationSpeed: 25
+  startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 0
 --- !u!1 &1432957518
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,10 +1846,10 @@ RectTransform:
   - {fileID: 246959763}
   m_Father: {fileID: 638607997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -300, y: -50}
-  m_SizeDelta: {x: 200, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 120, y: -45}
+  m_SizeDelta: {x: 195, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1432957520
 MonoBehaviour:
@@ -2099,10 +2116,10 @@ RectTransform:
   - {fileID: 791923180}
   m_Father: {fileID: 638607997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -100, y: -50}
-  m_SizeDelta: {x: 200, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 320, y: -45}
+  m_SizeDelta: {x: 195, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1630720373
 MonoBehaviour:
@@ -2456,6 +2473,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1744517026}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1744517024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2506,10 +2535,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToggleUI
-  targetButton: {fileID: 1744517023}
-  uiPanel: {fileID: 82293392}
+  object_to_toggle: {fileID: 82293391}
   animationSpeed: 25
   startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 1
 --- !u!1 &1756916380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,6 +2636,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1756916385}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1756916383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2657,10 +2698,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToggleUI
-  targetButton: {fileID: 1756916382}
-  uiPanel: {fileID: 675238098}
+  object_to_toggle: {fileID: 675238097}
   animationSpeed: 25
   startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 1
 --- !u!95 &1756916386
 Animator:
   serializedVersion: 7
@@ -2854,11 +2895,11 @@ RectTransform:
   - {fileID: 1821404834}
   m_Father: {fileID: 638607997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 100, y: -50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 39420, y: -45}
   m_SizeDelta: {x: 200, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 195, y: 0.5}
 --- !u!114 &2008385518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3753,6 +3794,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7890537716082141345}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &2174679084795024881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4107,8 +4160,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 9123107576369303244}
-        m_TargetAssemblyTypeName: ToggleUI, Assembly-CSharp
+      - m_Target: {fileID: 9123107576369303245}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
         m_MethodName: SetUIEnabled
         m_Mode: 1
         m_Arguments:
@@ -4569,6 +4622,18 @@ MonoBehaviour:
       - m_Target: {fileID: 914191755}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5268,6 +5333,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6621511308892644599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5807,10 +5884,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToggleUI
-  targetButton: {fileID: 2072438899899335506}
-  uiPanel: {fileID: 1145734267}
+  object_to_toggle: {fileID: 1145734266}
   animationSpeed: 25
   startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 1
 --- !u!224 &7923717606720873070
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6024,6 +6101,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8023974175500075031}
+        m_TargetAssemblyTypeName: PopupsUI, Assembly-CSharp
+        m_MethodName: SetUIEnabled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8023974175500075031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6036,10 +6125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToggleUI
-  targetButton: {fileID: 8023974175500075030}
-  uiPanel: {fileID: 215521667}
+  object_to_toggle: {fileID: 215521666}
   animationSpeed: 25
   startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 1
 --- !u!114 &8317160496741031989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6502,7 +6591,7 @@ GameObject:
   - component: {fileID: 3749394396893050937}
   - component: {fileID: 3222638795616033749}
   - component: {fileID: 9123107576369303243}
-  - component: {fileID: 9123107576369303244}
+  - component: {fileID: 9123107576369303245}
   m_Layer: 5
   m_Name: Button:Settings
   m_TagString: Untagged
@@ -6532,7 +6621,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9123107576369303244
+--- !u!114 &9123107576369303245
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6541,10 +6630,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9123107576369303242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a36e05ad4872c9428344ba6ef57bf61, type: 3}
+  m_Script: {fileID: 11500000, guid: ee195aa93364bac428c2deb1e7b61218, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToggleUI
+  m_EditorClassIdentifier: Assembly-CSharp::PopupsUI
   object_to_toggle: {fileID: 638607996}
+  animationSpeed: 25
+  startScale: {x: 0, y: 0, z: 0}
+  disableAfter: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
