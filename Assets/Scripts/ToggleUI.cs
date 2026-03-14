@@ -1,3 +1,21 @@
+/*
+This Script is to Toggle UI On and Off
+
+animationSpeed is the speed the UI Pops In and out
+
+startScale is the size (scale) the UI pops out
+
+fullScale is the size (scale) the UI has at the end of the Popout Animation
+
+disabeAfter is a setting to set whether it should Popin after the button is not selected anymore 
+    or stay until something else closes it
+
+triggerButton is the Button it´s self (don´t touch it) in line 33 it gets the button component
+
+currentRoutine is the Coroutine for the animation
+
+isOpen checks whether the UI is Toggled On or Off
+*/
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -10,12 +28,12 @@ public class ToggleUI : MonoBehaviour
     [Header("Animation")]
     public float animationSpeed = 25f;
     public Vector3 startScale = Vector3.zero;
+    public Vector3 fullScale = Vector3.one;
 
     [Header("Behaviour")]
     public bool disableAfter = false;
 
     private Button triggerButton;
-    private Vector3 fullScale = Vector3.one;
     private Coroutine currentRoutine;
     private bool isOpen = false;
 
