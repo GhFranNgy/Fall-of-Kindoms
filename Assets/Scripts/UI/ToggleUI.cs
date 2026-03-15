@@ -32,10 +32,14 @@ public class ToggleUI : MonoBehaviour
 
     [Header("Behaviour")]
     public bool disableAfter = false;
+    public bool showAnimation = true;
 
     private Button triggerButton;
     private Coroutine currentRoutine;
     private bool isOpen = false;
+
+    // Store the original scale of the object so we don't overwrite it in Start
+    private Vector3 originalScale;
 
     void Start()
     {
@@ -43,15 +47,14 @@ public class ToggleUI : MonoBehaviour
 
         if (object_to_toggle != null)
         {
-            object_to_toggle.transform.localScale = startScale;
-            object_to_toggle.SetActive(false);
+            // Store the original scale but don't modify it
+            originalScale = object_to_toggle.transform.localScale;
         }
     }
 
     void Update()
     {
-        if (!disableAfter) return;
-        if (!isOpen) return;
+        if (!disableAfter || !isOpen) return;
 
         GameObject selected = EventSystem.current.currentSelectedGameObject;
 
@@ -65,23 +68,41 @@ public class ToggleUI : MonoBehaviour
 
     public void SetUIEnabled()
     {
+        if (object_to_toggle == null) return;
+
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
 
-        object_to_toggle.transform.localScale = startScale;
+        // Make sure object is active
         object_to_toggle.SetActive(true);
 
+        // Start from startScale if animation is enabled, else fullScale
+        if (showAnimation)
+        {
+            object_to_toggle.transform.localScale = startScale;
+            currentRoutine = StartCoroutine(ScaleUI(fullScale, false));
+        }
+        else
+        {
+            object_to_toggle.transform.localScale = fullScale;
+        }
+
         isOpen = true;
-        currentRoutine = StartCoroutine(ScaleUI(fullScale, false));
     }
 
     public void SetUIDisabled()
     {
+        if (object_to_toggle == null) return;
+
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
 
         isOpen = false;
-        currentRoutine = StartCoroutine(ScaleUI(startScale, true));
+
+        if (showAnimation)
+            currentRoutine = StartCoroutine(ScaleUI(startScale, true));
+        else
+            object_to_toggle.transform.localScale = startScale;
     }
 
     private IEnumerator ScaleUI(Vector3 target, bool disableAfterAnim)
