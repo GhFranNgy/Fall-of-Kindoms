@@ -1318,6 +1318,7 @@ MonoBehaviour:
   promptText: {fileID: 176385701}
   playerCamera: {fileID: 1955526112}
   raycastDistance: 5
+  sphereRadius: 0.3
   interactableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1326,8 +1327,6 @@ MonoBehaviour:
     prompt: main
   - tag: Placeholder_2
     prompt: dddddddd
-  - tag: Placeholder_3
-    prompt: 
 --- !u!33 &6331290096562774119
 MeshFilter:
   m_ObjectHideFlags: 0
