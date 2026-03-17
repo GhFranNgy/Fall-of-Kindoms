@@ -10,6 +10,7 @@ public class InteractionPrompt : MonoBehaviour
 
     [Header("Settings")]
     public float raycastDistance = 3f;
+    public float sphereRadius = 0.3f;
     public LayerMask interactableLayers = ~0;
 
     [Header("Tag Prompts")]
@@ -36,7 +37,7 @@ public class InteractionPrompt : MonoBehaviour
         Ray ray = new Ray(playerCamera.transform.position,
                           playerCamera.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, raycastDistance, interactableLayers))
+        if (Physics.SphereCast(ray, sphereRadius, out RaycastHit hit, raycastDistance, interactableLayers))
         {
             if (_promptLookup.TryGetValue(hit.collider.tag, out string message))
             {
