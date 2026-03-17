@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Place
+  - Placeholder_1
+  - Placeholder_2
   layers:
   - Default
   - TransparentFX
