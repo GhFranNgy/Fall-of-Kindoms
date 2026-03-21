@@ -20,6 +20,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ToggleUI : MonoBehaviour
 {
@@ -32,31 +33,48 @@ public class ToggleUI : MonoBehaviour
 
     [Header("Behaviour")]
     public bool disableAfter = false;
+    public bool showAnimation = true;
 
-    private Button triggerButton;
+    [Header("Buttons that Toggle this")]
+    public List<Button> triggerButtons = new List<Button>();
     private Coroutine currentRoutine;
     private bool isOpen = false;
 
+    // Store the original scale of object
+    private Vector3 originalScale;
+
     void Start()
     {
-        triggerButton = GetComponent<Button>();
 
         if (object_to_toggle != null)
         {
-            object_to_toggle.transform.localScale = startScale;
-            object_to_toggle.SetActive(false);
+            // Store the original scale
+            originalScale = object_to_toggle.transform.localScale;
         }
     }
 
     void Update()
     {
-        if (!disableAfter) return;
-        if (!isOpen) return;
+        if (!disableAfter || !isOpen) return;
 
         GameObject selected = EventSystem.current.currentSelectedGameObject;
 
-        if (selected == null || 
-            (selected != triggerButton.gameObject &&
+        bool isTriggerSelected = false;
+
+        if (selected != null)
+        {
+            foreach (Button btn in triggerButtons)
+            {
+                if (btn != null && selected == btn.gameObject)
+                {
+                    isTriggerSelected = true;
+                    break;
+                }
+            }
+        }
+
+        if (selected == null ||
+            (!isTriggerSelected &&
             !selected.transform.IsChildOf(object_to_toggle.transform)))
         {
             SetUIDisabled();
@@ -65,23 +83,41 @@ public class ToggleUI : MonoBehaviour
 
     public void SetUIEnabled()
     {
+        if (object_to_toggle == null) return;
+
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
 
-        object_to_toggle.transform.localScale = startScale;
+        // Make sure object is active
         object_to_toggle.SetActive(true);
 
+        // Start from startScale if animation is enabled, else fullScale
+        if (showAnimation)
+        {
+            object_to_toggle.transform.localScale = startScale;
+            currentRoutine = StartCoroutine(ScaleUI(fullScale, false));
+        }
+        else
+        {
+            object_to_toggle.transform.localScale = fullScale;
+        }
+
         isOpen = true;
-        currentRoutine = StartCoroutine(ScaleUI(fullScale, false));
     }
 
     public void SetUIDisabled()
     {
+        if (object_to_toggle == null) return;
+
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
 
         isOpen = false;
-        currentRoutine = StartCoroutine(ScaleUI(startScale, true));
+
+        if (showAnimation)
+            currentRoutine = StartCoroutine(ScaleUI(startScale, true));
+        else
+            object_to_toggle.transform.localScale = startScale;
     }
 
     private IEnumerator ScaleUI(Vector3 target, bool disableAfterAnim)
