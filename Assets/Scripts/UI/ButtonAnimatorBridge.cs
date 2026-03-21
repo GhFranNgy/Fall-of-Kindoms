@@ -6,9 +6,7 @@ public class ButtonAnimatorBridge : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler,
     IPointerDownHandler,
-    IPointerUpHandler/*,
-    ISelectHandler,
-    IDeselectHandler*/
+    IPointerUpHandler
 {
     [Header("Animator to Control")]
     public Animator targetAnimator;
@@ -80,17 +78,4 @@ public class ButtonAnimatorBridge : MonoBehaviour,
             targetAnimator.SetBool(normalParam, true);  
         }
     }
-
-    /*// Set Selected Animation after MousePointer release
-    public void OnSelect(BaseEventData eventData)
-    {
-        ResetBools();
-        targetAnimator.SetBool(selectedParam, true);
-    }
-    // Set normal Animation when Button is nolonger Selected
-    public void OnDeselect(BaseEventData eventData)
-    {
-        ResetBools();
-        targetAnimator.SetBool(normalParam, true);
-    }*/
 }
