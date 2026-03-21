@@ -20,6 +20,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ToggleUI : MonoBehaviour
 {
@@ -34,20 +35,20 @@ public class ToggleUI : MonoBehaviour
     public bool disableAfter = false;
     public bool showAnimation = true;
 
-    private Button triggerButton;
+    [Header("Buttons that Toggle this")]
+    public List<Button> triggerButtons = new List<Button>();
     private Coroutine currentRoutine;
     private bool isOpen = false;
 
-    // Store the original scale of the object so we don't overwrite it in Start
+    // Store the original scale of object
     private Vector3 originalScale;
 
     void Start()
     {
-        triggerButton = GetComponent<Button>();
 
         if (object_to_toggle != null)
         {
-            // Store the original scale but don't modify it
+            // Store the original scale
             originalScale = object_to_toggle.transform.localScale;
         }
     }
@@ -58,8 +59,22 @@ public class ToggleUI : MonoBehaviour
 
         GameObject selected = EventSystem.current.currentSelectedGameObject;
 
-        if (selected == null || 
-            (selected != triggerButton.gameObject &&
+        bool isTriggerSelected = false;
+
+        if (selected != null)
+        {
+            foreach (Button btn in triggerButtons)
+            {
+                if (btn != null && selected == btn.gameObject)
+                {
+                    isTriggerSelected = true;
+                    break;
+                }
+            }
+        }
+
+        if (selected == null ||
+            (!isTriggerSelected &&
             !selected.transform.IsChildOf(object_to_toggle.transform)))
         {
             SetUIDisabled();
