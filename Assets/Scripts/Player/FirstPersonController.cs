@@ -17,6 +17,8 @@ public class FirstPersonController : MonoBehaviour
     public RectTransform rightLookPanel;
     public float touchLookSensitivity = 0.1f;
 
+    public bool isAndroid;
+
     // ================= LOOK =================
     [Header("Mouse Look")]
     public float smoothSpeed = 15f;
@@ -88,7 +90,6 @@ public class FirstPersonController : MonoBehaviour
     {
         HandleLook();
         HandleMovement();
-        HandleActions();
     }
 
     // ================= LOOK =================
@@ -98,7 +99,7 @@ public class FirstPersonController : MonoBehaviour
         float mouseY = 0f;
 
         // Desktop mouse input
-        if (leftJoystick == null)
+        if (!isAndroid)
         {
             mouseX = Input.GetAxis(userSettings.mouseXAxis) * userSettings.mouseSensitivity * Time.deltaTime;
             mouseY = Input.GetAxis(userSettings.mouseYAxis) * userSettings.mouseSensitivity * Time.deltaTime;
@@ -106,7 +107,7 @@ public class FirstPersonController : MonoBehaviour
         }
 
         // Mobile right-panel swipe
-        if (leftJoystick != null && rightLookPanel != null && Input.touchCount > 0)
+        if (isAndroid && rightLookPanel != null && Input.touchCount > 0)
         {
             for (int i = 0; i < Input.touchCount; i++)
             {
@@ -146,7 +147,7 @@ public class FirstPersonController : MonoBehaviour
 
         Vector2 moveInput;
 
-        if (leftJoystick != null)
+        if (isAndroid)
         {
             // Mobile joystick movement
             moveInput = new Vector2(leftJoystick.Horizontal(), leftJoystick.Vertical());
@@ -206,21 +207,5 @@ public class FirstPersonController : MonoBehaviour
         bobTimer += Time.deltaTime * bobSpeed;
         float bobOffset = Mathf.Sin(bobTimer) * bobAmount;
         playerCamera.localPosition = new Vector3(playerCamera.localPosition.x, targetCameraY + bobOffset, playerCamera.localPosition.z);
-    }
-
-    // ================= ACTIONS =================
-    private void HandleActions()
-    {
-        if (Input.GetKeyDown(userSettings.main_Action))
-            Debug.Log("Main Action");
-
-        if (Input.GetKeyDown(userSettings.second_Action))
-            Debug.Log("Secondary Action");
-
-        if (Input.GetKeyDown(userSettings.reload_Action))
-            Debug.Log("Reload Action");
-
-        if (Input.GetKeyDown(userSettings.switch_Action))
-            Debug.Log("Switch Action");
     }
 }

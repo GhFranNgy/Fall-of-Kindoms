@@ -13016,6 +13016,7 @@ MonoBehaviour:
   leftJoystick: {fileID: 45136547}
   rightLookPanel: {fileID: 555361612}
   touchLookSensitivity: 0.75
+  isAndroid: 0
   smoothSpeed: 15
   walkSpeed: 6
   crouchSpeed: 3
