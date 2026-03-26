@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour
@@ -10,8 +11,11 @@ public class FirstPersonController : MonoBehaviour
     public Transform groundCheck;
 
     [Header("Mobile Joysticks (optional)")]
-    public FloatingJoystick leftJoystick;
-    public FloatingJoystick rightJoystick;
+    public FloatingJoystick leftJoystick; 
+
+    [Header("Mobile Look Panel (optional)")]
+    public RectTransform rightLookPanel;
+    public float touchLookSensitivity = 0.1f;
 
     // ================= LOOK =================
     [Header("Mouse Look")]
@@ -90,26 +94,39 @@ public class FirstPersonController : MonoBehaviour
     // ================= LOOK =================
     private void HandleLook()
     {
-        Vector2 lookInput;
+        float mouseX = 0f;
+        float mouseY = 0f;
 
-        if (rightJoystick != null)
+        // Desktop mouse input
+        if (leftJoystick == null)
         {
-            // Mobile look
-            lookInput = new Vector2(rightJoystick.Horizontal(), rightJoystick.Vertical());
-        }
-        else
-        {
-            // Keyboard/mouse look
-            float mouseX = Input.GetAxis(userSettings.mouseXAxis) * userSettings.mouseSensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis(userSettings.mouseYAxis) * userSettings.mouseSensitivity * Time.deltaTime;
-
+            mouseX = Input.GetAxis(userSettings.mouseXAxis) * userSettings.mouseSensitivity * Time.deltaTime;
+            mouseY = Input.GetAxis(userSettings.mouseYAxis) * userSettings.mouseSensitivity * Time.deltaTime;
             if (userSettings.invertMouseY) mouseY *= -1f;
-
-            lookInput = new Vector2(mouseX, mouseY);
         }
 
-        yaw += lookInput.x;
-        pitch -= lookInput.y;
+        // Mobile right-panel swipe
+        if (leftJoystick != null && rightLookPanel != null && Input.touchCount > 0)
+        {
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if (RectTransformUtility.RectangleContainsScreenPoint(rightLookPanel, touch.position))
+                {
+                    if (touch.phase == TouchPhase.Moved)
+                    {
+                        Vector2 delta = touch.deltaPosition;
+                        mouseX = delta.x * touchLookSensitivity;
+                        mouseY = delta.y * touchLookSensitivity;
+                        if (userSettings.invertMouseY) mouseY *= -1f;
+                    }
+                }
+            }
+        }
+
+        // Apply rotation
+        yaw += mouseX;
+        pitch -= mouseY;
         pitch = Mathf.Clamp(pitch, -90f, 90f);
 
         currentYaw = Mathf.Lerp(currentYaw, yaw, smoothSpeed * Time.deltaTime);
@@ -131,7 +148,7 @@ public class FirstPersonController : MonoBehaviour
 
         if (leftJoystick != null)
         {
-            // Mobile movement
+            // Mobile joystick movement
             moveInput = new Vector2(leftJoystick.Horizontal(), leftJoystick.Vertical());
         }
         else
@@ -144,14 +161,14 @@ public class FirstPersonController : MonoBehaviour
             if (Input.GetKey(userSettings.move_Left)) moveInput.x -= 1f;
         }
 
-        isCrouching = (leftJoystick != null && moveInput.magnitude > 0) ? isCrouching : Input.GetKey(userSettings.move_Crouch);
+        isCrouching = Input.GetKey(userSettings.move_Crouch) || (leftJoystick != null && moveInput.magnitude > 0 && isCrouching);
 
         float speed = isCrouching ? crouchSpeed : walkSpeed;
 
         Vector3 move = transform.TransformDirection(new Vector3(moveInput.x, 0f, moveInput.y));
         controller.Move(move * speed * Time.deltaTime);
 
-        if ((leftJoystick == null && Input.GetKeyDown(userSettings.move_Jump)) && isGrounded)
+        if (Input.GetKeyDown(userSettings.move_Jump) && isGrounded)
             velocity.y = jumpForce;
 
         velocity.y -= gravity * Time.deltaTime;
