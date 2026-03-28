@@ -60,8 +60,9 @@ public class FirstPersonController : MonoBehaviour
         originalCamY = cameraParent.localPosition.y;
         currentCamY = originalCamY;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+// LOCK CURSOR ONLY WHEN NOT TESTING
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     void Update()
