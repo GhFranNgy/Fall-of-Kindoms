@@ -3,10 +3,14 @@ using UnityEngine.EventSystems;
 
 public class TouchLookArea : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
+    public UserSettings userSettings;
+    private float sensitivity;
     private Vector2 inputDelta;
 
-    public float sensitivity = 0.2f;
-
+    void Start() 
+    {
+        sensitivity = userSettings.touchSensitivity;
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         inputDelta = Vector2.zero;

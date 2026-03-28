@@ -38,4 +38,7 @@ public class UserSettings : MonoBehaviour
     [Header("Mouse Settings")] 
     [Range(0f, 100f)] public float mouseSensitivity = 50f; 
     public bool invertMouseY = false; 
+
+    [Header("Touch Settings")]
+    [Range(0f, 1f)] public float touchSensitivity = 0.2f;
 }
