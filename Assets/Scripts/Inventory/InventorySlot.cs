@@ -1,46 +1,98 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public RectTransform rectTransform;
-    public InventoryItem currentItem;
+    public bool hovering;
 
-    private bool isHighlighted = false;
-    private Vector3 normalScale = Vector3.one;
-    private Vector3 targetScale;
+    private ItemData heldItem;
+    private int itemAmount;
 
-    [SerializeField] private float scaleMultiplier = 1.2f;
-    [SerializeField] private float smoothSpeed = 10f;
+    private Image iconImage;
+    private TextMeshProUGUI amountText;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        targetScale = normalScale;
+        iconImage = transform.GetChild(0).GetComponent<Image>();
+        amountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();    
     }
 
-    private void Update()
+    public ItemData GetItem()
     {
-        rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, targetScale, Time.deltaTime * smoothSpeed);
+        return heldItem;
     }
 
-    public void SetHighlight(bool value)
+    public int GetAmount()
     {
-        isHighlighted = value;
-        targetScale = isHighlighted ? normalScale * scaleMultiplier : normalScale;
+        return itemAmount;
     }
 
-    public bool IsEmpty()
+    public void SetItem(ItemData item, int amount = 1)
     {
-        return currentItem == null;
+        heldItem = item;
+        itemAmount = amount;
+
+        UpdateSlot();
     }
 
-    public void SetItem(InventoryItem item)
+    public void UpdateSlot()
     {
-        currentItem = item;
+        if(heldItem != null)
+        {
+            iconImage.enabled = true;
+            iconImage.sprite = heldItem.icon;
+            amountText.text = itemAmount.ToString();
+        }
+        else
+        {
+            iconImage.enabled = false;
+            amountText.text = "";
+        }
     }
 
-    public void Clear()
+    public int AddAmount(int amountToAdd)
     {
-        currentItem = null;
+        itemAmount+= amountToAdd;
+        UpdateSlot();
+        return itemAmount;
+    }
+
+    public int RemoveAmount(int amountToRemove)
+    {
+        itemAmount -= amountToRemove;
+        if(itemAmount == 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            UpdateSlot();
+        }
+        
+        return itemAmount;
+    }
+
+    public void ClearSlot()
+    {
+        heldItem = null;
+        itemAmount = 0;
+        UpdateSlot();
+    }
+
+    public bool HasItem()
+    {
+        return heldItem != null;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hovering = false;
     }
 }
