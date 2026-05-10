@@ -17,6 +17,7 @@ public class FirstPersonController : MonoBehaviour
     public float minPitch = -70f;
     public float maxPitch = 70f;
     public float snappiness = 100f;
+    public float viewBobbing = 1f;
     public float touchSensitivity = 5f;
 
     [Header("Movement")]
@@ -42,8 +43,6 @@ public class FirstPersonController : MonoBehaviour
     private bool jumpPressed;
     private bool crouchHeld;
 
-
-
     private float rotX, rotY;
     private float xVel, yVel;
 
@@ -51,6 +50,9 @@ public class FirstPersonController : MonoBehaviour
     private float originalCamY;
     private float currentCamY;
     private float camVel;
+
+    private float bobTimer;
+    private float bobAmount;
 
     void Awake()
     {
@@ -71,6 +73,7 @@ public class FirstPersonController : MonoBehaviour
         HandleGroundCheck();
         HandleMovement();
         HandleCrouch();
+        HandleViewBobbing();
     }
 
     // ================= LOOK =================
@@ -186,7 +189,47 @@ public class FirstPersonController : MonoBehaviour
         );
 
         cameraParent.localPosition = new Vector3(0, currentCamY, 0);
-    }    
+    }
+
+    // ================= VIEW BOBBING =================
+    void HandleViewBobbing()
+    {
+        // Check if player is moving
+        float x = 0f;
+        float z = 0f;
+
+        if (platformManager.isAndroid)
+        {
+            x = joystick.Horizontal();
+            z = joystick.Vertical();
+        }
+        else if (platformManager.isPC && Cursor.visible == false)
+        {
+            if (Input.GetKey(userSettings.move_Left)) x -= 1f;
+            if (Input.GetKey(userSettings.move_Right)) x += 1f;
+            if (Input.GetKey(userSettings.move_Forward)) z += 1f;
+            if (Input.GetKey(userSettings.move_Backward)) z -= 1f;
+        }
+
+        bool isMoving = (x != 0f || z != 0f);
+
+        // Only bob camera if grounded and moving
+        if (isGrounded && isMoving)
+        {
+            bobTimer += Time.deltaTime * moveSpeed * 2f;
+            bobAmount = Mathf.Sin(bobTimer) * viewBobbing * 0.01f;
+        }
+        else
+        {
+            bobAmount = Mathf.Lerp(bobAmount, 0f, Time.deltaTime * 5f);
+        }
+
+        // Apply bobbing to camera
+        Vector3 camPos = cameraParent.localPosition;
+        camPos.y = currentCamY + bobAmount;
+        cameraParent.localPosition = camPos;
+    }
+
     // EventTrigger jump and crouch 
     public void JumpButtonDown() => jumpPressed = true;
     public void JumpButtonUp() => jumpPressed = false;
